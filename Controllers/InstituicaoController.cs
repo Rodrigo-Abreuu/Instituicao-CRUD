@@ -42,14 +42,50 @@ namespace Projeto.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Instituicao instituicao)
         {
             instituicao.InstituicaoID = instituicoes.Select(i => i.InstituicaoID).Max() + 1;
             instituicoes.Add(instituicao);
+
+            return RedirectToAction("Index");
+        }
+
+        //Get: Edit
+        public ActionResult Edit(long id)
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Instituicao instituicao)
+        {
+            instituicoes[instituicoes.IndexOf(instituicoes.
+                Where(i => i.InstituicaoID == instituicao.InstituicaoID).First())] = instituicao;
+
+            return RedirectToAction("Index");
+        }
+
+        //Get: Details
+        public ActionResult Details(long id)
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+
+        //Get: Delete
+        public ActionResult Delete(long id)
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Instituicao instituicao)
+        {
+            instituicoes.Remove(instituicoes.
+                Where(i => i.InstituicaoID == instituicao.InstituicaoID).First());
 
             return RedirectToAction("Index");
         }
